@@ -72,6 +72,17 @@ def send_text_file(file_name):
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
 
+@app.route('/filelisting')
+def filelisting():
+	if not session.get('logged_in'):
+		abort(401)
+	rootdir = os.getcwd()
+	_files_ = []
+	for subdir, dirs, lists in os.walk(rootdir + "app/static/uploads"):
+		for file in lists:
+			_files_ = _files_ + [os.path.join(subdir,file)]
+	return render_template('filelisting.html', _files_ = _files_)
+
 @app.after_request
 def add_header(response):
     """

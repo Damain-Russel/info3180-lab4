@@ -30,7 +30,7 @@ def add_file():
     if not session.get('logged_in'):
         abort(401)
 
-    file_folder = ''
+    file_folder = app.config['UPLOAD_FOLDER']
 
     if request.method == 'POST':
         file = request.files['file']
@@ -71,7 +71,6 @@ def send_text_file(file_name):
     """Send your static text file."""
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
-
 
 @app.after_request
 def add_header(response):
